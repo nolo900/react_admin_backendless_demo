@@ -37,7 +37,12 @@ export default (apiUrl, httpClient = fetchUtils.fetchJson) => {
     const convertDataRequestToHTTP = (type, resource, params) => {
         console.log(type, resource, params);
         let url = '';
-        const options = {};
+        let options = {};
+        options['headers'] = new Headers({
+            Accept: 'application/json',
+            'user-token': localStorage.getItem('user-token')
+        });
+
         switch (type) {
             case GET_LIST: {
                 const { page,  perPage } = params.pagination;
@@ -114,7 +119,7 @@ export default (apiUrl, httpClient = fetchUtils.fetchJson) => {
                 throw new Error(`Unsupported fetch action type ${type}`);
         }
         return { url, options };
-    }
+    };
 
     // return the final json
     return (type, resource, params) => {
