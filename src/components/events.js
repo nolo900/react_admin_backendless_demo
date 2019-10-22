@@ -21,8 +21,14 @@ export const EventTitle = ({record}) => {
     return <span>Event{record ? `: ${record.title}` : ''}</span>;
 };
 
+const EventFilter = (props) => (
+    <Filter {...props}>
+        <TextInput label="Search" source="title" alwaysOn />
+    </Filter>
+);
+
 export const EventList = props => (
-    <List {...props}>
+    <List filters={<EventFilter/>} {...props}>
         <Datagrid rowClick="edit">
             <TextField source="id"/>
             <TextField source="title" />

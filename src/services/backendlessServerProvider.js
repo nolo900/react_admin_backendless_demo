@@ -50,11 +50,17 @@ export default (apiUrl, httpClient = fetchUtils.fetchJson) => {
                 // adjust to match Backendless
                 if (field === 'id') { field = 'objectId' }; // map id to Backendless objectId
 
+                let whereClause;
+                let lastQuery = Object.entries(params.filter).pop();
+                if (lastQuery){
+                    whereClause = `${lastQuery[0]} LIKE '%${lastQuery[1]}%'`;
+                }
+
                 const query = {
                     sortBy: `${field} ${order}`,
                     pageSize: perPage,
                     offset: page - 1,
-                    //where: still need to deconstruct params.filter
+                    where: whereClause,
                 }
 
                 url = `${apiUrl}/${resource}?${stringify(query)}`;
