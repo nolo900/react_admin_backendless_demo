@@ -38,13 +38,17 @@ export default (apiUrl, httpClient = fetchUtils.fetchJson) => {
         switch (type) {
             case GET_LIST: {
                 const { page, perPage } = params.pagination;
-                const { field, order } = params.sort;
+                let { field, order } = params.sort;
+                if (field === 'id') { field = 'objectId' }; // map id to Backendless objectId
                 const query = {
-                    sort: JSON.stringify([field, order]),
-                    range: JSON.stringify([
-                        (page - 1) * perPage,
-                        page * perPage - 1,
-                    ]),
+                    sortBy: `${field} ${order}`,
+                    // sort: JSON.stringify([field, order]),
+                    pageSize: perPage,
+                    offset: page,
+                    // range: JSON.stringify([
+                    //     (page - 1) * perPage,
+                    //     page * perPage - 1,
+                    // ]),
                     filter: JSON.stringify(params.filter),
                 };
                 url = `${apiUrl}/${resource}?${stringify(query)}`;
@@ -117,7 +121,7 @@ export default (apiUrl, httpClient = fetchUtils.fetchJson) => {
                 // }
                 return {
                     data: json.map(x => ({ id: x.objectId, ...x })), // Convert Backendless 'objectId' to 'id' for compatibility with react-admin
-                    total: json.length
+                    total: 20
                     // total: parseInt(
                     //     headers
                     //         .get('content-range')
@@ -147,6 +151,22 @@ export default (apiUrl, httpClient = fetchUtils.fetchJson) => {
      * @returns {Promise} the Promise for a data response
      */
     return (type, resource, params) => {
+        const { url, options } = convertDataRequestToHTTP(
+            type,
+            resource,
+            params
+        );
+
+        if (type === GET_LIST || type === GET_MANY_REFERENCE){
+            return Promise.all([
+                httpClient(url, options),
+                httpClient(url, options)
+            ]).then(responses => ({
+                data: responses[0].json.map(x => ({ id: x.objectId, ...x })),
+                total: 100
+            }))
+        }
+
         // simple-rest doesn't handle filters on UPDATE route, so we fallback to calling UPDATE n times instead
         if (type === UPDATE_MANY) {
             return Promise.all(
@@ -173,11 +193,11 @@ export default (apiUrl, httpClient = fetchUtils.fetchJson) => {
             }));
         }
 
-        const { url, options } = convertDataRequestToHTTP(
-            type,
-            resource,
-            params
-        );
+        // const { url, options } = convertDataRequestToHTTP(
+        //     type,
+        //     resource,
+        //     params
+        // );
         return httpClient(url, options).then(response =>
             convertHTTPResponse(response, type, resource, params)
         );

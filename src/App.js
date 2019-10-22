@@ -3,7 +3,7 @@ import { Admin, Resource } from 'react-admin';
 import { ContactList, ContactEdit, ContactCreate } from "./components/contacts";
 import { EventList, EventEdit, EventCreate } from './components/events';
 
-import jsonServerProvider from './services/jsonServerProvider';
+import jsonServerProvider from './services/backendlessServerProvider';
 import authProvider from './services/authProvider';
 import EventIcon from '@material-ui/icons/Book';
 import UserIcon from '@material-ui/icons/Group';
