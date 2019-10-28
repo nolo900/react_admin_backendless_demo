@@ -8,7 +8,7 @@ export default (type, params) => {
         const { username, password } = params;
         const request = new Request(LOGIN_URL, {
             method: 'POST',
-            body: JSON.stringify({ identity: username, password: password }),
+            body: JSON.stringify({ login: username, password: password }),
             headers: new Headers({ 'Content-Type': 'application/json' }),
         });
         return fetch(request)

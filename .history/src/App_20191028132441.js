@@ -15,7 +15,9 @@ const API_URL = `https://api.backendless.com/${process.env.REACT_APP_BE_APPLICAT
 const dataProvider = jsonServerProvider(API_URL);
 
 function App() {
-  
+  console.log('here is dataprovider')
+  console.log(dataProvider)
+  console.log(authProvider(AUTH_GET_PERMISSIONS))
   return(
     <Admin dashboard={Dashboard} dataProvider={dataProvider} authProvider={authProvider} >
       <Resource name="User" icon={UserIcon} list={UserList} edit={UserEdit} create={UserCreate} />
