@@ -1,6 +1,6 @@
 import { AUTH_LOGIN, AUTH_LOGOUT, AUTH_ERROR, AUTH_CHECK, AUTH_GET_PERMISSIONS } from 'react-admin';
 
-const LOGIN_URL = `https://api.backendless.com/${process.env.REACT_APP_BE_APPLICATION_ID}/${process.env.REACT_APP_BE_REST_API_KEY}/services/UserService/loginUser`;
+const LOGIN_URL = `https://api.backendless.com/${process.env.REACT_APP_BE_APPLICATION_ID}/${process.env.REACT_APP_BE_REST_API_KEY}/services//login`;
 
 export default (type, params) => {
     console.log(type, params);
@@ -8,7 +8,7 @@ export default (type, params) => {
         const { username, password } = params;
         const request = new Request(LOGIN_URL, {
             method: 'POST',
-            body: JSON.stringify({ identity: username, password: password }),
+            body: JSON.stringify({ login: username, password: password }),
             headers: new Headers({ 'Content-Type': 'application/json' }),
         });
         return fetch(request)
