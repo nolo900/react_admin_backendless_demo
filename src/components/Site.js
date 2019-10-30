@@ -30,10 +30,9 @@ const SiteFilter = (props) => (
 export const SiteList = props => (
     <List filters={<SiteFilter/>} {...props}>
         <Datagrid rowClick="edit">
-            <TextField source="id"/>
-            <TextField source="title" />
-            <DateField source="start"/>
-            <DateField source="end"/>
+            <TextField source="siteName" />
+            <TextField source="description"/>
+            <TextField source="qrData"/>
             <EditButton/>
         </Datagrid>
     </List>
@@ -43,9 +42,9 @@ export const SiteEdit = props => (
     <Edit title={<SiteTitle/>} {...props}>
         <SimpleForm>
             <DisabledInput source="id" />
-            <TextInput source="title" />
-            <DateInput source="start" />
-            <DateInput source="end" />
+            <DisabledInput source="qrData"/>
+            <TextInput source="siteName" />
+            <LongTextInput source="description"/>
         </SimpleForm>
     </Edit>
 );
@@ -53,9 +52,8 @@ export const SiteEdit = props => (
 export const SiteCreate = props => (
     <Create {...props}>
         <SimpleForm>
-            <TextInput source="title" />
-            <DateInput source="start" />
-            <DateInput source="end" />
+            <TextInput source="siteName" />
+            <LongTextInput source="description"/>
         </SimpleForm>
     </Create>
 );
