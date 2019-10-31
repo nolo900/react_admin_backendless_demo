@@ -70,12 +70,13 @@ export default (apiUrl, httpClient = fetchUtils.fetchJson) => {
                 url = `${apiUrl}/${resource}/${params.id}`;
                 break;
             case GET_MANY: {
-                //TODO where does this even get called?
-                let objectIds = params.ids.map(id => `'${id}'` ).toString();
-                const query = {
-                    where: JSON.stringify(`objectId in (${objectIds})`),
-                };
-                url = `${apiUrl}/${resource}?${stringify(query)}`;
+                // let objectIds = params.ids.map(id => `'${id}'` ).toString();
+                // const query = {
+                //     where: JSON.stringify(`objectId in (${objectIds})`),
+                // };
+                const query = {}
+                // url = `${apiUrl}/${resource}?${stringify(query)}`;
+                url = `${apiUrl}/${resource}`;
                 break;
             }
             case GET_MANY_REFERENCE: {
@@ -154,6 +155,17 @@ export default (apiUrl, httpClient = fetchUtils.fetchJson) => {
         }
 
         // if type === GET_MANY
+        if (type === GET_MANY){
+            return Promise.all(
+                params.ids.map(id => httpClient(`${url}/${id}`,options))
+            ).then(responses => {
+
+                console.log( {data: responses.map(res => ( {id: res.json.objectId, ...res.json } ) ) } )
+                let data = responses.map(res => ( {id: res.json.objectId, ...res.json } ) );
+                // return {data: responses.map(res => ( {id: res.json.objectId, ...res.json } ) ) }
+                return { data: data };
+            });
+        }
 
         // if type === GET_MANY_REFERENCE
 

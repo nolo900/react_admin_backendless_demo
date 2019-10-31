@@ -23,7 +23,7 @@ export const SiteTitle = ({record}) => {
 
 const SiteFilter = (props) => (
     <Filter {...props}>
-        <TextInput label="Search" source="title" alwaysOn />
+        <TextInput label="Search" source="siteName" alwaysOn />
     </Filter>
 );
 
