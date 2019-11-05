@@ -7,6 +7,10 @@ import {
     TextInput,
     DateField,
     DateInput,
+    Query,
+    Show,
+    ShowButton,
+    SimpleShowLayout,
     LongTextInput,
     SelectInput,
     ReferenceInput,
@@ -16,6 +20,7 @@ import {
     Edit,
     Create,
     EditButton } from 'react-admin';
+import {ServiceLogList} from "./ServiceLog";
 
 export const SiteTitle = ({record}) => {
     return <span>Site{record ? `: ${record.title}` : ''}</span>;
@@ -33,7 +38,7 @@ export const SiteList = props => (
             <TextField source="siteName" />
             <TextField source="description"/>
             <TextField source="qrData"/>
-            <EditButton/>
+            <ShowButton {...props} />
         </Datagrid>
     </List>
 );
@@ -56,4 +61,40 @@ export const SiteCreate = props => (
             <LongTextInput source="description"/>
         </SimpleForm>
     </Create>
+);
+
+export const SiteShow = (props) => (
+    <Show {...props}>
+        <SimpleShowLayout>
+            <TextField source="siteName" />
+            <SiteServiceList/>
+        </SimpleShowLayout>
+
+    </Show>
+);
+
+
+const siteServicePayload = {
+    pagination: { page: 1, perPage: 10 },
+    sort: { field: 'created', order: 'desc' },
+    filter: {},
+};
+
+export const SiteServiceList = props => (
+    <Query type="GET_LIST" resource="ServiceLog" payload={siteServicePayload}>
+        {({ data, total, loading, error }) => {
+            if (loading) { return <p>LOADING...</p>; }
+            if (error) { console.log(error); return <p>ERROR</p>; }
+            console.log('props =>',props);
+            return (
+                <div>
+                    <h5>Site Service History</h5>
+                    <pre>DATA BELOW IS NOT SCOPED TO THIS SITE, QUERY NEEDS TO BE MODIFIED</pre>
+                    <ul>
+                        {data.map(logItem => <li key={logItem.id}>{logItem.timeIn} | {logItem.timeOut} => {logItem.comments}</li>)}
+                    </ul>
+                </div>
+            );
+        }}
+    </Query>
 );

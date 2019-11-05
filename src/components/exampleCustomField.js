@@ -12,10 +12,10 @@ const styles = {
     },
 };
 
-const CustomUrlField = ({ record = {}, source, classes }) =>
+const ExampleCustomField = ({ record = {}, source, classes }) =>
     <a href={record[source]} className={classes.link}>
         {record[source]}
         <LaunchIcon className={classes.icon}/>
     </a>;
 
-export default withStyles(styles)(CustomUrlField);
+export default withStyles(styles)(ExampleCustomField);

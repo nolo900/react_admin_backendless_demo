@@ -85,17 +85,17 @@ export default (apiUrl, httpClient = fetchUtils.fetchJson) => {
                 // adjust to match Backendless
                 if (field === 'id') { field = 'objectId' }; // map id to Backendless objectId
 
-                //TODO make sure this works
-                const query = {
-                    sortBy: `${field} ${order}`,
-                    pageSize: perPage,
-                    offset: page - 1,
-                    // filter: JSON.stringify({
-                    //     ...params.filter,
-                    //     [params.target]: params.id,
-                    // }),
-                };
-                url = `${apiUrl}/${resource}?${stringify(query)}`;
+                //
+                // const query = {
+                //     sortBy: `${field} ${order}`,
+                //     pageSize: perPage,
+                //     offset: page - 1,
+                //     // filter: JSON.stringify({
+                //     //     ...params.filter,
+                //     //     [params.target]: params.id,
+                //     // }),
+                // };
+                url = `${apiUrl}/${resource}`;
                 break;
             }
             case UPDATE:

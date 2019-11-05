@@ -31,8 +31,8 @@ export default (type, params) => {
     if (type === AUTH_ERROR) {
         const status  = params.status;
         if (status === 401 || status === 403) {
-            localStorage.removeItem('user-token');
-            localStorage.removeItem('roles');
+            // localStorage.removeItem('user-token');
+            // localStorage.removeItem('roles');
             return Promise.reject();
         }
         return Promise.resolve();

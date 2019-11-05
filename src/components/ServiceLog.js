@@ -20,11 +20,11 @@ export const ServiceLogList = props => (
     <List {...props} filters={<ServiceLogFilter/>} >
         <Datagrid rowClick="edit">
             <ReferenceField label="Site" source="site.objectId" reference="site">
-                <TextField source="id" />
+                <TextField source="siteName" />
             </ReferenceField>
-            {/*<TextField source="site.siteName" />*/}
-            {/*<TextField source="user.firstName" />*/}
-            {/*<TextField source="user.lastName" />*/}
+            <ReferenceField label="User" source="user.objectId" reference="users">
+                <TextField source="lastName" />
+            </ReferenceField>
             <DateField source="timeIn" />
             <DateField source="timeOut" />
             <TextField source="comments" />
