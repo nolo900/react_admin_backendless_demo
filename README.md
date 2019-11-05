@@ -6,7 +6,7 @@
 `./services/backendlessServerProvider.js`
 
 ## to run App...
-make sure you have `.env.local` file,
+Make sure you have `.env.local` file,
 then
 `npm install`
 then 
